@@ -5,13 +5,13 @@ v2pagecache - Fast, free, open source page cache for opencart v2.tx
 
 ## VERSION
 
-Version 1.0.2
+Version 1.0.3
 
 ## DESCRIPTION
 
 This page level cache for opencart version 2.x is a port of our very similar page cache for opencart 1.5.x, which you can find [on github](https://github.com/budgetneon/pagecache). Please see [octurbo.com](http://octurbo.com) for the full story behind both of these opencart modules.
 
-This page cache is  simple, but it's very fast and also includes an administration panel. Installation is straightforward, using the (ocmod installer)[https://github.com/opencart/opencart/wiki/Modification-System] that is built into opencart since version 2.X.
+This page cache is  simple, but it's very fast and also includes an administration panel. Installation is straightforward, using the [ocmod installer](https://github.com/opencart/opencart/wiki/Modification-System) that is built into opencart since version 2.X.
 
 It has been tested so far only in an apache/mod_php environment, but should also work under fastcgi, provided you are using PHP 5.4 or greater. 
 
