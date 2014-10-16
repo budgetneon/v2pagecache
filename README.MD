@@ -48,9 +48,11 @@ There's two changes that need to be made.
 
 1. At the top of your main index.php file, find this section of code:
 
+```
     if (file_exists('config.php')) {
         require_once('config.php');
     }  
+```
 
 Then, add these 6 lines, exactly as shown below, just after the section of code above:
 
@@ -63,8 +65,10 @@ Then, add these 6 lines, exactly as shown below, just after the section of code 
 
 2. At the very bottom of your main index.php, find this section of code:
 
+```
     // Output
     $response->output();
+```
 
 Then, add these 3 lines of code, just after the section of code above:
 
