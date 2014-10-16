@@ -1,6 +1,6 @@
 # pagecache
 
-v2pagecache - Fast, free, open source page cache for opencart v2.tx
+v2pagecache - Fast, free, open source page cache for opencart v2.X
  
 
 ## VERSION
@@ -54,12 +54,12 @@ There's two changes that need to be made.
 
 Then, add these 6 lines, exactly as shown below, just after the section of code above:
 
-  require_once(DIR_SYSTEM . 'library/v2pagecache.php');           //V2PAGECACHE
-  $pagecache = new V2PageCache();                                 //V2PAGECACHE
-  if ($pagecache->ServeFromCache()) {                             //V2PAGECACHE
-      // exit here if we served this page from the cache          //V2PAGECACHE
-      return;                                                     //V2PAGECACHE
-  }                                                               //V2PAGECACHE
+    require_once(DIR_SYSTEM . 'library/v2pagecache.php');         //V2PAGECACHE
+    $pagecache = new V2PageCache();                               //V2PAGECACHE
+    if ($pagecache->ServeFromCache()) {                           //V2PAGECACHE
+        // exit here if we served this page from the cache        //V2PAGECACHE
+        return;                                                   //V2PAGECACHE
+    }                                                             //V2PAGECACHE
 
 2. At the very bottom of your main index.php, find this section of code:
 
@@ -68,10 +68,9 @@ Then, add these 6 lines, exactly as shown below, just after the section of code 
 
 Then, add these 3 lines of code, just after the section of code above:
 
-$response->output();
-if ($pagecache->OkToCache()) {                                  //V2PAGECACHE
-    $pagecache->CachePage($response);                           //V2PAGECACHE
-}                                                               //V2PAGECACHE
+    if ($pagecache->OkToCache()) {                                //V2PAGECACHE
+        $pagecache->CachePage($response);                         //V2PAGECACHE
+    }                                                             //V2PAGECACHE
 
 
 
