@@ -108,6 +108,14 @@
                 <td class='left'><?php print $v2pc_addcomment_note;?></td>
               </tr>
               <tr>
+                <td class='left'>wrapcomment</td><td class='left'><?php echo $wrapcomment;?></td>
+                <td class='left'><?php print $v2pc_wrapcomment_note;?></td>
+              </tr>
+              <tr>
+                <td class='left'>end_flush</td><td class='left'><?php echo $end_flush;?></td>
+                <td class='left'><?php print $v2pc_end_flush_note;?></td>
+              </tr>
+              <tr>
                 <td class='left'>skip_urls</td>
                 <td class='left'><?php echo join('<br>',$skip_urls);?></td>
                 <td class='left'><?php print $v2pc_skipurls_note;?></td>

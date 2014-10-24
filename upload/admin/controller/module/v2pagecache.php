@@ -23,6 +23,12 @@ class ControllerModuleV2Pagecache extends Controller {
         $pagecache = new V2PageCache();
         $vals=$pagecache->Settings();
         foreach (array_keys($vals) as $key) {
+            if ($vals[$key] === true) {
+                $vals[$key]='true';
+            }
+            if ($vals[$key] === false) {
+                $vals[$key]='false';
+            }
             $data[$key]=$vals[$key];
         }
         $this->document->setTitle($this->language->get('heading_title'));

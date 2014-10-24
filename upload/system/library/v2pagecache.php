@@ -8,18 +8,24 @@
 //
 //
 class V2PageCache {
-    private $expire='14400'   ; // expire time, in seconds 14400 = 4 hours
-    private $lang='en'        ; // default language for site
-    private $currency='USD'   ; // default currency for site
-    private $addcomment = true; // set to true to add a comment to the bottom
-                                // of cached html pages with info+expire time
-                                // only works where headers_list() works
+    private $expire='14400'  ; // expire time, in seconds 14400 = 4 hours
+    private $lang='en'       ; // default language for site
+    private $currency='USD'  ; // default currency for site
 
-    private $end_flush=false;   // set to true to do an ob_end_flush() before
-                                // serving a cached page. Slightly faster
-                                // "first byte received" times, but it creates
-                                // issues in some environments, hence, it's off
-                                // by default
+    private $addcomment=true ; // set to true to add a comment to the bottom
+                               // of cached html pages with info+expire time
+                               // only works where headers_list() works
+
+    private $wrapcomment=false;// if this is set to true (and $addcoment is
+                               // also set to true), we will use a comment
+                               // that most html minifiers won't remove, like:
+                               // <!--[if IE]><!--comment--><![endif]-->
+
+    private $end_flush=false;  // set to true to do an ob_end_flush() before
+                               // serving a cached page. Slightly faster
+                               // "first byte received" times, but it creates
+                               // issues in some environments, hence, it's off
+                               // by default
 
     private $skip_urls= array(
         '#checkout/#',
@@ -67,6 +73,8 @@ class V2PageCache {
             'lang'   => $this->lang,
             'currency' => $this->currency,
             'addcomment' => $this->addcomment,
+            'wrapcomment' => $this->wrapcomment,
+            'end_flush' => $this->end_flush,
             'cachefolder' => $this->cachefolder,
             'skip_urls'  => $this->skip_urls
         );
@@ -205,12 +213,19 @@ class V2PageCache {
 
     public function RedirectOutput($buffer) {
         if ($this->IsHtml() && $this->addcomment==true) {
+            $pre="\n<!--";
+            $post="-->";
+            if ($this->wrapcomment === true) {
+                $pre="\n<!--[if IE]>\n<!--";
+                $post="-->\n<![endif]-->";
+            }
             fwrite($this->outfp, $buffer .
-                  "\n<!--cache host [" . htmlspecialchars($this->domain). 
-                  '] uri ['.
-                  htmlspecialchars($_SERVER['REQUEST_URI']) . 
+                  $pre .
+                  "cache host [" . htmlspecialchars($this->domain). '] uri ['.
+                  htmlspecialchars($_SERVER['REQUEST_URI']) .
                   "] (" . $this->lang . '/' . $this->currency . ") expires: ".
-                  date("Y-m-d H:i:s e",time()+$this->expire).'-->'
+                  date("Y-m-d H:i:s e",time()+$this->expire).
+                  $post
             );
         } else {
             fwrite($this->outfp, $buffer);
@@ -226,9 +241,20 @@ class V2PageCache {
         //   - 404 Not Found
         if (function_exists('http_response_code')) {
             if (http_response_code() != 200) {
-                return false;
+                if (function_exists('php_sapi_name')) {
+                    // litespeed is broken, http_response_code()
+                    // returns '' when it should return 200
+                    if (php_sapi_name() == 'litespeed') {
+                        if (http_response_code() != '') {
+                            return false;
+                        }
+                    }
+                } else {
+                    return false;
+                }
             }
         }
+
         if ($this->cachefile != null) {
             $temp=$this->cachefile . '.lock';
             $pparts = pathinfo($temp);
