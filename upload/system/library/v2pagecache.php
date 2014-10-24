@@ -14,6 +14,13 @@ class V2PageCache {
     private $addcomment = true; // set to true to add a comment to the bottom
                                 // of cached html pages with info+expire time
                                 // only works where headers_list() works
+
+    private $end_flush=false;   // set to true to do an ob_end_flush() before
+                                // serving a cached page. Slightly faster
+                                // "first byte received" times, but it creates
+                                // issues in some environments, hence, it's off
+                                // by default
+
     private $skip_urls= array(
         '#checkout/#',
         '#product/compare#',
@@ -168,7 +175,9 @@ class V2PageCache {
         if (file_exists($cacheFile)) {
             if (time() - $this->expire < filemtime($cacheFile) ){
                 // flush and disable the output buffer
-                while(@ob_end_flush());
+                if ($this->end_flush === true) {
+                    while(@ob_end_flush());
+                }
                 readfile($cacheFile);
                 return true;
             } else {

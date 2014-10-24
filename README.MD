@@ -106,6 +106,13 @@ In order to keep this page cache lightweight, we do not store settings in the op
     private $addcomment = true; // set to true to add a comment to the bottom
                                 // of cached html pages with info+expire time
                                 // only works where headers_list() works
+
+    private $end_flush=false;   // set to true to do an ob_end_flush() before
+                                // serving a cached page. Slightly faster
+                                // "first byte received" times, but it creates
+                                // issues in some environments, hence, it's off
+                                // by default
+
     private $skip_urls= array(
         '#checkout/#',
         '#product/compare#',
@@ -120,6 +127,7 @@ A new notes on these settings:
 - $expire : Because it's in the declaration section of the class, your options to set this are limited...you can't, for example, do $expire=24*24*60.  Just figure out the number of seconds you want cached pages to exist before they expire. We used 14400, which is 4 hours.
 - $lang and $currency : We cache pages for different languages and currencies in different files.  These two settings control what the default language and/or currency is if we get an http request that does not have the session variable(s) for each respective setting already set.
 - $addcomment : Set to true if you want the page cache to append an html comment at the end of the stored cache file that notes the url cached and it's expiry time.  This can be helpful since you can see it with live pages via your browser's "view source" functionality.  Set to false if you don't want this.  We only add the comment if headers_list() is available and indicates that the cached resource is an html page.  This keeps us from adding an html comment to a cached JSON response, for example. 
+- $end_flush : Set to true to run ob_end_flush() before serving a cached page. This gives you a slightly faster "first byte to browser" time, but creates issues (errors, blank pages) in some environments, so we've defaulted it to false.
 - $skip_urls : This is an array of PCRE patterns for urls that you do not want to be cached.  The default settings prevent caching for checkout pages, product comparisons, captchas, and the JSON country list.  Note that this is not the only check done to decide when a page shoudn't be cached.  You shouldn't have to, for example, mark the 'account/' pages here, because we already disable caching when a user is logged in.
 
 Also, the cached pages are kept in a directory named 'v2pagecache', under the existing directory opencart uses for it's more general cache.  In most installations, this would be /your_opencart_root/system/cache/v2pagecache.  I
