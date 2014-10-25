@@ -170,6 +170,8 @@ class ControllerModuleV2Pagecache extends Controller {
             } else {
                 $sapicompat=$this->language->get('v2pc_sapi_fcgi_oldphp');
             }
+        } elseif ($phpsapi == 'litespeed') {
+                $sapicompat=$this->language->get('v2pc_sapi_litespeed');
         } else {
             $sapicompat=$this->language->get('v2pc_sapi_not_tested');
         }
