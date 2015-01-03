@@ -1,3 +1,7 @@
+01/03/2015
+    - Version 1.0.7
+    - Add docs for charset and locale, add missing logic for http response code
+
 10/25/2014
     - Version 1.0.6
     - Added sapi compatibility message for litespeed to admin panel
