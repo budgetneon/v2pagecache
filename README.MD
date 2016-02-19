@@ -1,4 +1,5 @@
 Edit: Do not use on Opencart 2.1.x until this issue is fixed: https://github.com/budgetneon/v2pagecache/issues/4
+
 Works fine on Opencart 2.0.x
 
 
