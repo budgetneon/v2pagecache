@@ -1,8 +1,3 @@
-Edit: Do not use on Opencart 2.1.x until this issue is fixed: https://github.com/budgetneon/v2pagecache/issues/4
-
-Works fine on Opencart 2.0.x
-
-
 # pagecache
 
 v2pagecache - Fast, free, open source page cache for opencart v2.X
@@ -10,7 +5,7 @@ v2pagecache - Fast, free, open source page cache for opencart v2.X
 
 ## VERSION
 
-Version 1.0.3
+Version 1.1
 
 ## DESCRIPTION
 
@@ -74,9 +69,18 @@ Then, add these 6 lines, exactly as shown below, just after the section of code 
 
 2. At the very bottom of your main index.php, find this section of code:
 
+For opencart 2.0.x and 2.1.x:
+
 ```
     // Output
     $response->output();
+```
+
+For opencart 2.2.x:
+
+```
+    // Application
+    require_once(DIR_SYSTEM . 'framework.php');
 ```
 
 Then, add these 3 lines of code, just after the section of code above:
