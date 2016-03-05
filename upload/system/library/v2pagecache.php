@@ -39,7 +39,7 @@ class V2PageCache {
     private $oktocache=null;   // null specifically meaning "not known yet"
 
     // constructor
-    public function V2PageCache() {
+    public function __construct() {
         // session initialization code verbatim 
         // from opencart's library/session.php
         if (!session_id()) {
