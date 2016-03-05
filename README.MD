@@ -97,6 +97,7 @@ This extension includes an easy to use admin panel that allows you to:
 - View, but not change, the settings (you have to manually edit system/library/v2pagecache.php to change settings).
 
 Here's a screenshot of the admin panel:
+
 ![V2Pagecache Admin Panel Screenshot](https://i.imgur.com/xJknPBN.jpg)
 
 ## SETTINGS
