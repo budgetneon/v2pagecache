@@ -33,6 +33,7 @@ First, you need to install a separate opencart mod that fixes problems with the 
 
 - Install this ["Quick Fix"](http://www.opencart.com/index.php?route=extension/extension/info&extension_id=18892) module that fixes the opencart extension loader so that it doesn't require you to enable ftp  
 - Go to Extensions -> Modifications, and refresh the modification cache:
+
 ![Refreshing the modification cache](https://i.imgur.com/8s7gy23.png)
 
 Now, you can install the page cache:
@@ -40,8 +41,11 @@ Now, you can install the page cache:
 - Log into your opencart admin panel
 - Go to Extensions -> Extension Installer, and upload this extension
 - Now, go to Extensions -> Modules, and click the green button install the module, then the blue button to enable and configure it.
+
 ![Install the Module](https://i.imgur.com/2kMrkyz.png)
+
 - Now that you're on the module's config page, enable the page cache.
+
 ![Enabling the Page Cache](https://i.imgur.com/0v74TNv.png)
 
 ## Manual Installation
@@ -97,6 +101,7 @@ This extension includes an easy to use admin panel that allows you to:
 - View, but not change, the settings (you have to manually edit system/library/v2pagecache.php to change settings).
 
 Here's a screenshot of the admin panel:
+
 ![V2Pagecache Admin Panel Screenshot](https://i.imgur.com/xJknPBN.jpg)
 
 ## SETTINGS

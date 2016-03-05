@@ -1,3 +1,12 @@
+03/05/2016
+    - Version 1.1.0
+    - Support caching https pages, but cached separately from http
+    - Support Opencart 2.1.x and 2.2.x
+        - Because oc >= 2.1.x eliminated the cart session variable, had
+          to add logic to query cart to see if empty on every non-cached page
+          load (regrettable, but the simplest solution)
+    - Add newer style constructors so it works with PHP7.x
+
 01/03/2015
     - Version 1.0.7
     - Add docs for charset and locale, add missing logic for http response code

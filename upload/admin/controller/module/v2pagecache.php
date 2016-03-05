@@ -120,6 +120,12 @@ class ControllerModuleV2Pagecache extends Controller {
         $stats['success']='ok';
         $this->response->setOutput(json_encode($stats));
     }
+    // return just the top level portion of the opencart version,
+    // i.e., 2.0, 2.1, 2.2, etc.  
+    public function octlversion() {
+        $varray=explode('.',VERSION);
+        return $varray[0] . '.' . $varray[1];
+    }
     public function isreadable() {
         $filepath=$this->pathindexphp();
         $dirpath=dirname($this->pathindexphp());
@@ -193,12 +199,17 @@ class ControllerModuleV2Pagecache extends Controller {
         $fp=fopen($this->pathindexphp(),'r');
         $pgcount=0;$topmarker=false;$bottommarker=false;
         $desiredcount=count($this->topcode()) + count($this->bottomcode());
+        if ($this->octlversion() > 2.1) {
+            $bmatch='#DIR_SYSTEM \. \'framework\.php\'\)\s*$#';
+        } else {
+            $bmatch='#^\$response->output\(\);.*$#';
+        }
         while(!feof($fp)) {
             $line=fgets($fp);
             if (preg_match('#^// Install\s*$#',$line))  {
                 $topmarker=true;
             }
-            if (preg_match('#^\$response->output\(\);.*$#',$line))  {
+            if (preg_match($bmatch,$line))  {
                 $bottommarker=true;
             }
             if (preg_match('#//V2PAGECACHE#',$line)) {
@@ -281,6 +292,11 @@ class ControllerModuleV2Pagecache extends Controller {
         $tempfile=$this->pathindexphp() . '.tmp';
         $out=@fopen($tempfile,'w');
         $in=@fopen($this->pathindexphp(),'r');
+        if ($this->octlversion() > 2.1) {
+            $bmatch='#DIR_SYSTEM \. \'framework\.php\'\)\s*$#';
+        } else {
+            $bmatch='#^\$response->output\(\);.*$#';
+        }
         while(!feof($in)) {
             $line=fgets($in);
             if (preg_match('#^// Install\s*$#',$line))  {
@@ -288,7 +304,7 @@ class ControllerModuleV2Pagecache extends Controller {
                     fwrite($out,str_pad($code,60) . "    //V2PAGECACHE\n");
                 }
                 fwrite($out,$line);
-            } elseif (preg_match('#^\$response->output\(\);.*$#',$line))  {
+            } elseif (preg_match($bmatch,$line))  {
                 fwrite($out,$line);
                 if (substr($line,-1) != "\n") {
                     fwrite($out,"\n");
