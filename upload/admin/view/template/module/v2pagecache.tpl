@@ -91,9 +91,12 @@
               </tr>
               </thead>
               <tbody>
+              <td class='left'>cachefolder</td><td class='left'><?php echo $cachefolder;?></td>
+                <td class='left'><?php print $v2pc_cachefolder_note;?></td>
+              </tr>
               <tr>
-                  <td class='left'>expire</td><td class='left'><?php echo $expire;?></td>
-                  <td class='left'><?php print $v2pc_expire_note;?></td>
+                <td class='left'>expire</td><td class='left'><?php echo $expire;?></td>
+                <td class='left'><?php print $v2pc_expire_note;?></td>
               </tr>
               <tr>
                 <td class='left'>lang</td><td class='left'><?php echo $lang;?></td>
@@ -114,6 +117,10 @@
               <tr>
                 <td class='left'>end_flush</td><td class='left'><?php echo $end_flush;?></td>
                 <td class='left'><?php print $v2pc_end_flush_note;?></td>
+              </tr>
+              <tr>
+                <td class='left'>cachebydevice</td><td class='left'><?php echo $cachebydevice;?></td>
+                <td class='left'><?php print $v2pc_cachebydevice_note;?></td>
               </tr>
               <tr>
                 <td class='left'>skip_urls</td>

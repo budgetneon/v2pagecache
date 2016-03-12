@@ -134,6 +134,19 @@ In order to keep this page cache lightweight, we do not store settings in the op
                                // issues in some environments, hence, it's off
                                // by default
 
+    // If using a 3rd party theme that serves different html to
+    // mobile/tablet/desktop, you can enable "cachebydevice"
+    // For the standard opencart theme, use false
+    // For journal theme, use 'mobiledetect';
+    // For Opencart Mobile Framework, use 'categorizr'
+    // For Omtex Mobile Framework, use 'categorizr'
+    //
+    // make sure only one of the three lines below is uncommented
+    private $cachebydevice=false;
+    //private $cachebydevice='mobiledetect';
+    //private $cachebydevice='categorizr';
+
+
     private $skip_urls= array(
         '#checkout/#',
         '#product/compare#',
@@ -151,6 +164,8 @@ A new notes on these settings:
 - $wrapcomment : If true, wraps the comment (see above) with <!-[if IE]><![endif]--> so that it doesn't get stripped out by an html minifier (like Cloudflare's, for example)
 - $end_flush : Set to true to run ob_end_flush() before serving a cached page. This gives you a slightly faster "first byte to browser" time, but creates issues (errors, blank pages) in some environments, so we've defaulted it to false.
 - $skip_urls : This is an array of PCRE patterns for urls that you do not want to be cached.  The default settings prevent caching for checkout pages, product comparisons, captchas, and the JSON country list.  Note that this is not the only check done to decide when a page shoudn't be cached.  You shouldn't have to, for example, mark the 'account/' pages here, because we already disable caching when a user is logged in.
+- $cachebydevice: Set to false if you have a truly responsive theme that serves the exact same html to all devices.  If you, however, have a theme that serves different html to mobile, tablets, and desktops, you will have to select either mobiledetect or categorizr. It is best to select the one that your theme actually uses.  For example, the Opencart Mobile Framework uses categorizr.
+
 
 Also, the cached pages are kept in a directory named 'v2pagecache', under the existing directory opencart uses for it's more general cache.  In most installations, this would be /your_opencart_root/system/cache/v2pagecache.  I
 
@@ -190,6 +205,20 @@ A page cache makes a much bigger difference on an opencart site that has a lot o
 - We did try to put in sufficient logic such that dynamically created pages that should not be cached...aren't.  However, it's possible we missed some.  Also, if you've added extensions to opencart that have url's that shouldn't be cached, that will likely be missed.  See the "$skip_urls" setting to remedy that. 
 
 - A page cache can be a terrible crutch, that effectively hides important performance problems.  For example, if your home page is really slow, the first person to request the page when it's not cached (or when the cache expires) will see that horrible performance.  Subsequent visits will get the benefit of the page cache, which is nice...but not if that's hiding the true issue from the site owner.  In short, it's not a substitute for proper performance tuning.
+
+## TROUBLESHOOTING
+
+If you are using a theme other than the opencart default, and the page looks "messed up", here are some things to try:
+
+- Change the addcomment setting to false.  Some themes serve up json, css, or javascript without changing the content header from the default of text/html.  I
+f the addcomment setting is true, it will add an html comment to that file, which only works for html...it will break json and javascript.
+- Look into the cachebydevice setting.  If your theme serves different html to mobile devices than it does to desktops, you will need to specifically set the 
+cachebydevice setting.
+- Read the section on this page regarding charsets and locales.
+- If you have some technical ability, look at the cached files that have been created in the cachefolder.  Is there something there that should not be cached?
+ Add it to the skip_urls setting.
+
+Also, be sure to clear the cache after changing settings.
 
 ## AUTHOR
 
