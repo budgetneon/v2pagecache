@@ -200,7 +200,7 @@ class ControllerModuleV2Pagecache extends Controller {
         $pgcount=0;$topmarker=false;$bottommarker=false;
         $desiredcount=count($this->topcode()) + count($this->bottomcode());
         if ($this->octlversion() > 2.1) {
-            $bmatch='#DIR_SYSTEM \. \'framework\.php\'\)\s*$#';
+            $bmatch='#require_once.*\'framework\.php\'\);#';
         } else {
             $bmatch='#^\$response->output\(\);.*$#';
         }
@@ -224,7 +224,7 @@ class ControllerModuleV2Pagecache extends Controller {
         }
         if ($bottommarker == false) {
             return(array('error',
-                $this->language->get('v2pc_err_bottommarker') 
+                 $this->language->get('v2pc_err_bottommarker') 
             ));
         }
         if ($pgcount == 0) {

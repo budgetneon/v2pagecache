@@ -286,7 +286,8 @@ class V2PageCache {
         $md5=md5($url);
         $subfolder=substr($md5,0,1).'/'.substr($md5,1,1).'/';
         $cacheFile = $this->cachefolder . $subfolder . 
-            $this->Protocol() . '_' . $domain . '_' .  $this->lang . '_' . 
+            $this->Protocol() . '_' . $domain . '_' .  
+            $this->device. '_' . $this->lang . '_' . 
             $this->currency . '_' . $md5 .  '.cache';
         if (file_exists($cacheFile)) {
             if (time() - $this->expire < filemtime($cacheFile) ){
@@ -330,6 +331,8 @@ class V2PageCache {
             fwrite($this->outfp, $buffer .
                   $pre .
                   "cache protocol [". $this->Protocol() . '] ' .
+                  "host [" . htmlspecialchars($this->domain). '] device ['.
+                  $this->device .  '] uri ['.
                   "host [" . htmlspecialchars($this->domain). '] uri ['.
                   htmlspecialchars($_SERVER['REQUEST_URI']) .
                   "] (" . $this->lang . '/' . $this->currency . ") expires: ".
