@@ -1,3 +1,6 @@
+03/13/2016
+    - Version 1.1.2
+    - Bug fixes for separated caching
 03/12/2016
     - Version 1.1.1
     - Support for separately caching for mobile, tablet, and desktop
