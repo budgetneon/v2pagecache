@@ -1,4 +1,7 @@
 08/18/2016
+    - Version 1.1.4
+    - Fix installer so that it works with OC 2.3.x
+08/18/2016
     - Version 1.1.3
     - Fixes for OC 2.1.x changing session handling
 03/13/2016

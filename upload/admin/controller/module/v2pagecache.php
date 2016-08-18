@@ -199,7 +199,9 @@ class ControllerModuleV2Pagecache extends Controller {
         $fp=fopen($this->pathindexphp(),'r');
         $pgcount=0;$topmarker=false;$bottommarker=false;
         $desiredcount=count($this->topcode()) + count($this->bottomcode());
-        if ($this->octlversion() > 2.1) {
+        if ($this->octlversion() >= 2.3) {
+            $bmatch='start(.catalog.);#';
+        } else if ($this->octlversion() >= 2.2) {
             $bmatch='#require_once.*\'framework\.php\'\);#';
         } else {
             $bmatch='#^\$response->output\(\);.*$#';

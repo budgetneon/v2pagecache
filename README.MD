@@ -5,7 +5,7 @@ v2pagecache - Fast, free, open source page cache for opencart v2.X
 
 ## VERSION
 
-Version 1.1.3
+Version 1.1.4
 
 ## DESCRIPTION
 
@@ -53,7 +53,7 @@ There's two changes that need to be made.
 1. At the top of your main index.php file, find this section of code:
 
 ```
-    if (file_exists('config.php')) {
+    if (is_file('config.php')) {
         require_once('config.php');
     }  
 ```
@@ -81,6 +81,13 @@ For opencart 2.2.x:
 ```
     // Application
     require_once(DIR_SYSTEM . 'framework.php');
+```
+
+For opencart 2.3.x
+```
+    // Startup
+    require_once(DIR_SYSTEM . 'startup.php');
+    start('catalog');
 ```
 
 Then, add these 3 lines of code, just after the section of code above:
