@@ -65,7 +65,7 @@ class V2PageCache {
             // only accept specific strings for $_SESSION['language']
             // (two small letters, optionally followed by - and more letters)
             if (preg_match('/^[a-z]{2}-*[a-zA-Z]*$/',$svar['language'])) {
-                $this->lang=$svar['language']);
+                $this->lang=$svar['language'];
             }
         }
         if (array_key_exists('currency',$svar)) {
@@ -241,7 +241,7 @@ class V2PageCache {
         } 
         $svar=$this->GetSessionVar();
         // don't cache for logged in customers or affiliates
-        if(!empty($svar['customer_id']) || !empty($svar['affiliate_id'))) {
+        if( !empty($svar['customer_id']) || !empty($svar['affiliate_id'])) {
             $this->cacheable=false;
             return $this->cacheable;
         }  
