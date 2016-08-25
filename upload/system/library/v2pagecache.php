@@ -60,17 +60,18 @@ class V2PageCache {
             session_start();
         }
         $this->cachefolder=DIR_CACHE. 'v2pagecache/';
-        if (array_key_exists('language',$this->GetSessionVar())) {
+        $svar=$this->GetSessionVar();
+        if (array_key_exists('language',$svar)) {
             // only accept specific strings for $_SESSION['language']
             // (two small letters, optionally followed by - and more letters)
-            if (preg_match('/^[a-z]{2}-*[a-zA-Z]*$/',$_SESSION['language'])) {
-                $this->lang=$this->GetSessionVar('language');
+            if (preg_match('/^[a-z]{2}-*[a-zA-Z]*$/',$svar['language'])) {
+                $this->lang=$svar['language']);
             }
         }
-        if (array_key_exists('currency',$this->GetSessionVar())) {
+        if (array_key_exists('currency',$svar)) {
             // only accept 3 consecutive A-Z for $_SESSION['language']
-            if (preg_match('/^[A-Z]{3}$/',$_SESSION['currency'])) {
-                $this->currency=$this->GetSessionVar('currency');
+            if (preg_match('/^[A-Z]{3}$/',$svar['currency'])) {
+                $this->currency=$svar['currency'];
             }
         }
         $this->device=$this->GetDevice();
@@ -106,13 +107,6 @@ class V2PageCache {
             return $_SESSION['default'];
         } else {
             return $_SESSION;
-        }
-    }
-    public function SetSessionVar($key,$val) {
-        if ($this->OcTlVersion() >= 2.1) {
-           return $_SESSION['default'][$key]=$val;
-        } else {
-           $_SESSION[$key]=$val;
         }
     }
     // figure out if this is desktop, mobile, or tablet
@@ -245,18 +239,19 @@ class V2PageCache {
             $this->cacheable=false;
             return $this->cacheable;
         } 
+        $svar=$this->GetSessionVar();
         // don't cache for logged in customers or affiliates
-        if(!empty($this->GetSessionVar('customer_id')) || !empty($this->GetSessionVar('affiliate_id'))) {
+        if(!empty($svar['customer_id']) || !empty($svar['affiliate_id'))) {
             $this->cacheable=false;
             return $this->cacheable;
         }  
         // don't cache if there are items in the cart
-        if (!empty($this->GetSessionVar['carthasitems']))  {
+        if (!empty($svar['carthasitems']))  {
             $this->cacheable=false;
             return $this->cacheable;
         }
         // don't cache if affiliate page or if wishlist exists in session
-        if (!empty($_GET['affiliate']) || !empty($this->getSessionVar('wishlist'))) {
+        if (!empty($_GET['affiliate']) || !empty($svar['wishlist'])) {
             $this->cacheable=false;
             return $this->cacheable;
         } 
