@@ -7,6 +7,12 @@ v2pagecache - Fast, free, open source page cache for opencart v2.X
 
 Version 1.1.5
 
+##IMPORTANT NOTE
+
+Due to some changes in how OpenCart handles sessions, people are encountering issues with V2PageCache.  That's why it's taken down from the OpenCart module directory.
+
+We won't be able to look into these issues anytime soon, and can't provide support.  Apologies.  We will update this page when and if we're able to fix the issues.
+
 ## DESCRIPTION
 
 This page level cache for opencart version 2.x is a port of our very similar page cache for opencart 1.5.x, which you can find [on github](https://github.com/budgetneon/pagecache). Please see [octurbo.com](http://octurbo.com) for the full story behind both of these opencart modules.
