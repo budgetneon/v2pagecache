@@ -1,5 +1,7 @@
 #!/bin/sh
-version="1.1.5"
-echo "VERSION: ${version}" > VERSION.TXT
-#rm -f v2pagecache*.ocmod.zip
-/usr/bin/zip -rD v2pagecache-${version}.ocmod.zip *.TXT upload/
+v="1.1.6"
+echo "VERSION: ${v}" > oc22/VERSION.TXT
+echo "VERSION: ${v}" > oc23/VERSION.TXT
+rm -f *\.zip
+(cd oc22;/usr/bin/zip -rD ../v2pagecache-oc22-${v}.ocmod.zip *.TXT upload/)
+(cd oc23;/usr/bin/zip -rD ../v2pagecache-oc23-${v}.ocmod.zip *.TXT upload/)

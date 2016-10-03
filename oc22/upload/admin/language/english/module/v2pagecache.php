@@ -26,6 +26,7 @@ $_['v2pc_sapi_fcgi_oldphp']='unsupported (known issues with fastcgi with PHP ver
 $_['v2pc_sapi_litespeed']='supported (we work around broken http_response_code() in litespeed)';
 $_['v2pc_sapi_not_tested']='unsupported (pagecache has not been tested with this SAPI)';
 $_['v2pc_text_status']='Status';
+$_['v2pc_only_2_2_supported']='This module is only for version 2.0.x through 2.2.x of opencart.  Opencart 2.3+ uses a different module';
 $_['v2pc_err_topmarker']='Cannot find top marker in index.php';
 $_['v2pc_err_bottommarker']='Cannot find bottom marker in index.php';
 $_['v2pc_pagecache_disabled']='Pagecache is disabled in index.php';

@@ -7,7 +7,7 @@
 //     http://www.freebsd.org/copyright/freebsd-license.html
 //
 //
-class ControllerModuleV2Pagecache extends Controller {
+class ControllerExtensionModuleV2Pagecache extends Controller {
     private $error = array();
 
     public function pathindexphp() {
@@ -18,7 +18,7 @@ class ControllerModuleV2Pagecache extends Controller {
     
     public function index() {
         // pull in all the language file entries
-        $data = $this->language->load('module/v2pagecache');
+        $data = $this->language->load('extension/module/v2pagecache');
         require_once(DIR_SYSTEM . 'library/v2pagecache.php');
         $pagecache = new V2PageCache();
         $vals=$pagecache->Settings();
@@ -50,14 +50,14 @@ class ControllerModuleV2Pagecache extends Controller {
 
         $data['breadcrumbs'][] = array(
             'text'      => $this->language->get('heading_title'),
-            'href'      => $this->url->link('module/v2pagecache', 
+            'href'      => $this->url->link('extension/module/v2pagecache', 
                 'token=' . $this->session->data['token'], 'SSL'),
             'separator' => ' :: '
         );
 
         $data['heading_title'] = $this->language->get('heading_title');
         $data['token'] = $this->session->data['token'];
-        $this->template = 'module/v2pagecache.tpl';
+        $this->template = 'extension/module/v2pagecache.tpl';
         $this->children = array(
             'common/header',
             'common/footer'
@@ -71,7 +71,7 @@ class ControllerModuleV2Pagecache extends Controller {
         );
 
         $this->response->setOutput(
-            $this->load->view('module/v2pagecache.tpl', $data)
+            $this->load->view('extension/module/v2pagecache.tpl', $data)
         );
     }
     public function stats() {
@@ -191,7 +191,7 @@ class ControllerModuleV2Pagecache extends Controller {
                "</tbody></table>";
     }
     public function statusindexphp() {
-        $this->language->load('module/v2pagecache');
+        $this->language->load('extension/module/v2pagecache');
         $check=$this->isreadable();
         if ($check[0] == false) {
             return $check;
@@ -200,9 +200,9 @@ class ControllerModuleV2Pagecache extends Controller {
         $pgcount=0;$topmarker=false;$bottommarker=false;
         $desiredcount=count($this->topcode()) + count($this->bottomcode());
         if ($this->octlversion() >= 2.3) {
-            $bmatch='start(.catalog.);#';
+            $bmatch='#start\(.catalog.\);#';
         } else if ($this->octlversion() >= 2.2) {
-            $bmatch='#require_once.*\'framework\.php\'\);#';
+            $bmatch='#DIR_SYSTEM.*framework\.php#';
         } else {
             $bmatch='#^\$response->output\(\);.*$#';
         }
@@ -256,12 +256,18 @@ class ControllerModuleV2Pagecache extends Controller {
     public function bottomcode() {
         return(array(
           'if ($pagecache->OkToCache()) {' ,
-          '    $pagecache->CachePage($response);',
+          '    $pagecache->CachePage();',
           '}'
         ));
     }
     public function enable() {
         $status=$this->statusindexphp();
+        if ($this->octlversion() < 2.3) {
+            $this->response->setOutput(json_encode(
+                array('error' => $this->language->get('v2pc_only_2_3_supported')) 
+            ));
+            return;
+        }
         if ($status[0] == 'enabled') {
             $this->response->setOutput(json_encode(
                 array('error' => $this->language->get('v2pc_already_enabled')) 
@@ -294,8 +300,10 @@ class ControllerModuleV2Pagecache extends Controller {
         $tempfile=$this->pathindexphp() . '.tmp';
         $out=@fopen($tempfile,'w');
         $in=@fopen($this->pathindexphp(),'r');
-        if ($this->octlversion() > 2.1) {
-            $bmatch='#DIR_SYSTEM \. \'framework\.php\'\)\s*$#';
+        if ($this->octlversion() >= 2.3) {
+            $bmatch='#start\(.catalog.\);#';
+        } else if ($this->octlversion() >= 2.2) {
+            $bmatch='#DIR_SYSTEM.*framework\.php#';
         } else {
             $bmatch='#^\$response->output\(\);.*$#';
         }
@@ -391,7 +399,7 @@ class ControllerModuleV2Pagecache extends Controller {
     }
 
     public function purge() {
-        $this->language->load('module/v2pagecache');
+        $this->language->load('extension/module/v2pagecache');
         $which=$this->request->get['which'];
         if ($which != "all" && $which != "expired") {
            $this->response->setOutput(json_encode(
@@ -436,7 +444,7 @@ class ControllerModuleV2Pagecache extends Controller {
     }
 
     protected function validate() {
-        if (!$this->user->hasPermission('modify', 'module/v2pagecache')) {
+        if (!$this->user->hasPermission('modify', 'extension/module/v2pagecache')) {
             $this->error['warning'] = $this->language->get('error_permission');
         }
         if (!$this->error) {
@@ -448,15 +456,15 @@ class ControllerModuleV2Pagecache extends Controller {
 
     // skeleton here in case it's needed later
     public function install() {
-        //$this->load->model('setting/setting');
-        //$settings = $this->model_setting_setting->getSetting('v2pagecache');
-        // $settings['whatever']='whatever';
-        //$this->model_setting_setting->editSetting('v2pagecache', $settings);
+        $this->load->model('extension/event');
+        $this->model_extension_event->addEvent('v2pagecache_cart', 'catalog/controller/*/after', 'extension/module/v2pagecache/set_cookie');
     }
 
     // disable the page cache if this module is uninstalled
     public function uninstall() {
-        $this->disable(true);
+       $this->load->model('extension/event');
+       $this->model_extension_event->deleteEvent('v2pagecache_cart');
+       $this->disable(true);
         //$this->load->model('setting/setting');
         //$settings = $this->model_setting_setting->getSetting('v2pagecache');
         //$settings['whatever']='whatever';

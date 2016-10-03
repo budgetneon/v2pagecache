@@ -1,3 +1,12 @@
+10/03/2016
+    - Version 1.1.6
+    - Separate out source and zip files for OC2.0-OC2.2 and OC2.3+
+    - Fix various parts (session variables, file locations, lack of
+      global registry, response) of the page cache that were affected
+      by changes made in Opencart
+08/18/2016 
+    - Version 1.1.5
+    - Minor Changes
 08/18/2016
     - Version 1.1.4
     - Fix installer so that it works with OC 2.3.x

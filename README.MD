@@ -9,9 +9,11 @@ Version 1.1.5
 
 ##IMPORTANT NOTE
 
-Due to some changes in how OpenCart handles sessions, people are encountering issues with V2PageCache.  That's why it's taken down from the OpenCart module directory.
+This is beta quality software, with VERY LITTLE support.  Opencart has made numerous changes to things that are important to a pagecache.  For example, $registry and $response used to be global...that changed in OpenCart 2.3.  Several other changes to areas like session, cart, etc, also happened.  We have done testing, but not extensively.  You are "ON YOUR OWN" to test this module.
 
-We won't be able to look into these issues anytime soon, and can't provide support.  Apologies.  We will update this page when and if we're able to fix the issues.
+Also, if you're running 3rd party modules or templates that could cause a single url to output different content, the pagecache will likely not work well. We cannot, an will not help, with issues encountered with 3rd party modules.  However, if you find and fix an issue, please feel free to submit it as a pull request to http://github.com/budgetneon/v2pagecache.
+
+In short, we are very unlikely to be to able to help with issues. We are not a software development shop.  We made this module for our own use, and released it open source so others could use it as well.  We don't have the resources, however, to offer support.
 
 ## DESCRIPTION
 
@@ -96,12 +98,19 @@ For opencart 2.3.x
     start('catalog');
 ```
 
+
 Then, add these 3 lines of code, just after the section of code above:
+For opencart 2.0.x through opencart 2.2.x:
 
     if ($pagecache->OkToCache()) {                                //V2PAGECACHE
         $pagecache->CachePage($response);                         //V2PAGECACHE
     }                                                             //V2PAGECACHE
 
+For opencart 2.3.x or greater:
+
+    if ($pagecache->OkToCache()) {                                //V2PAGECACHE
+        $pagecache->CachePage();                                  //V2PAGECACHE
+    }                                                             //V2PAGECACHE
 
 
 ## OVERVIEW

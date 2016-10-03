@@ -1,0 +1,2 @@
+Please see the instructions here:
+  https://github.com/budgetneon/v2pagecache

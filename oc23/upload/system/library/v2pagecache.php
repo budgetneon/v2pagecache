@@ -9,7 +9,7 @@
 //
 class V2PageCache {
     private $expire='14400'   ; // expire time, in seconds 14400 = 4 hours
-    private $lang='en'        ; // default language for site
+    private $lang='en-gb'        ; // default language for site
     private $currency='USD'   ; // default currency for site
 
     private $addcomment=true  ; // set to true to add a comment to the bottom
@@ -43,6 +43,7 @@ class V2PageCache {
         '#/wishlist/#',
         '#/compare/#',
         '#/captcha#',
+        '#/admin#'
     );
 
     private $cachefile=null;   // null specifically meaning "not known yet"
@@ -104,7 +105,11 @@ class V2PageCache {
     }
     public function GetSessionVar() {
         if ($this->OcTlVersion() >= 2.1) {
-            return $_SESSION['default'];
+            if (array_key_exists('default',$_SESSION)) {
+                return $_SESSION['default'];
+            } else {
+                return $_SESSION;
+            }
         } else {
             return $_SESSION;
         }
@@ -246,7 +251,9 @@ class V2PageCache {
             return $this->cacheable;
         }  
         // don't cache if there are items in the cart
-        if (!empty($svar['carthasitems']))  {
+        // This uses $_SESSION directly, as it's set by the pagecache, not
+        // by opencart
+        if (!empty($_SESSION['carthasitems']))  {
             $this->cacheable=false;
             return $this->cacheable;
         }
@@ -271,16 +278,16 @@ class V2PageCache {
     }
 
     public function OkToCache() {
-        // update a session variable to indicate if the cart is empty or not
-        // needed since OC 2.1.x no longer updates cart session data
-        global $registry;
-        $cart=$registry->get('cart');
-        if ($cart->hasProducts()) {
-            $_SESSION['carthasitems']=1;
-            $this->cacheable=false;
-            return $this->cacheable;
+        // this session variable is set by an event handler installed
+        // by this module
+        if (!empty($_SESSION['carthasitems'])) {
+            if ($_SESSION['carthasitems']==1) {
+                $this->cacheable=false;
+            } else {
+                $this->cacheable=true;
+            }
         } else {
-            unset($_SESSION['carthasitems']);
+            $this->cacheable=true;
         } 
         return $this->Cacheable();
     }
@@ -288,7 +295,6 @@ class V2PageCache {
     public function ServeFromCache() {
         if (! $this->Cacheable()) {
             return false;
-        }
         $domain = $this->DomainName();
         if ($domain === false) {
             return false;
@@ -356,7 +362,7 @@ class V2PageCache {
         }
     }
 
-    public function CachePage($response) {
+    public function CachePage() {
         // if the http_response_code() function is available (php 5.4+),
         // then we will only cache pages that are "200 OK".
         //
@@ -398,8 +404,9 @@ class V2PageCache {
             if ($fp != false) {
                 $this->outfp=$fp;
                 ob_start(array($this,'RedirectOutput'));
-                $response->setCompression(0);
-                $response->output();
+                global $v2pcresponse;
+                $v2pcresponse->setCompression(0);
+                $v2pcresponse->output();
                 $ohandler=set_error_handler(array($this, 'NullHandler'));
                 while(@ob_end_flush());
                 set_error_handler($ohandler);
