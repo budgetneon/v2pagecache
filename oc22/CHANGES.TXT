@@ -1,4 +1,10 @@
 10/04/2016
+    - Version 1.1.9
+    - Add russian language support (courtesy Slait)
+10/04/2016
+    - Version 1.1.8
+    - Minor fixes
+10/04/2016
     - Version 1.1.7
     - Fix missing brace
 10/03/2016

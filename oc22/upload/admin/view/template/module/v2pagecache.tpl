@@ -27,7 +27,7 @@
     </div>
     <div class="container-fluid">
         <div class="panel panel-default" style="padding: 0 5pt 5pt 5pt;background: #f4f4f4;">
-            <h2>Status</h2>
+            <h2><?php echo $v2pc_text_status;?></h2>
                 <span style='font-weight:bold;font-size: larger;'><?php print $v2pc_label_status;?></span>
                 <span id='modulestatus' style='display:inline-block;margin: 0 3pt;padding: 3pt;background-color: #ddd;font-weight: bold;font-size: larger;text-transform: uppercase;border: 1px solid #000;color: #000;'><?php print $v2pc_wait;?></span> 
                 (<span id='modulestatusdetail'><?php print $v2pc_wait;?></span>)
