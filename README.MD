@@ -77,6 +77,7 @@ Then, add these 6 lines, exactly as shown below, just after the section of code 
 
 2. At the very bottom of your main index.php, find this section of code:
 
+
 For opencart 2.0.x and 2.1.x:
 
 ```
