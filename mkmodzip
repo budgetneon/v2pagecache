@@ -1,5 +1,5 @@
 #!/bin/sh
-v="1.1.6"
+v="1.1.7"
 echo "VERSION: ${v}" > oc22/VERSION.TXT
 echo "VERSION: ${v}" > oc23/VERSION.TXT
 rm -f *\.zip

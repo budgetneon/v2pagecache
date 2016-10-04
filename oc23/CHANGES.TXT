@@ -1,3 +1,6 @@
+10/04/2016
+    - Version 1.1.7
+    - Fix missing brace
 10/03/2016
     - Version 1.1.6
     - Separate out source and zip files for OC2.0-OC2.2 and OC2.3+

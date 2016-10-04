@@ -295,6 +295,7 @@ class V2PageCache {
     public function ServeFromCache() {
         if (! $this->Cacheable()) {
             return false;
+        }
         $domain = $this->DomainName();
         if ($domain === false) {
             return false;
