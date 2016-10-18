@@ -61,14 +61,14 @@ class V2PageCache {
         }
         $this->cachefolder=DIR_CACHE. 'v2pagecache/';
         $svar=$this->GetSessionVar();
-        if (array_key_exists('language',$svar)) {
+        if (is_array($svar) && array_key_exists('language',$svar)) {
             // only accept specific strings for $_SESSION['language']
             // (two small letters, optionally followed by - and more letters)
             if (preg_match('/^[a-z]{2}-*[a-zA-Z]*$/',$svar['language'])) {
                 $this->lang=$svar['language'];
             }
         }
-        if (array_key_exists('currency',$svar)) {
+        if (is_array($svar) && array_key_exists('currency',$svar)) {
             // only accept 3 consecutive A-Z for $_SESSION['language']
             if (preg_match('/^[A-Z]{3}$/',$svar['currency'])) {
                 $this->currency=$svar['currency'];
