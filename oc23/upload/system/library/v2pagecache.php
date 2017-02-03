@@ -7,6 +7,8 @@
 //     http://www.freebsd.org/copyright/freebsd-license.html
 //
 //
+require_once(DIR_SYSTEM . 'library/session/native.php');
+use Session\Native;
 class V2PageCache {
     private $expire='14400'   ; // expire time, in seconds 14400 = 4 hours
     private $lang='en-gb'        ; // default language for site
@@ -54,11 +56,8 @@ class V2PageCache {
         // session initialization code verbatim 
         // from opencart's library/session.php
         if (!session_id()) {
-            ini_set('session.use_only_cookies', 'On');
-            ini_set('session.use_trans_sid', 'Off');
-            ini_set('session.cookie_httponly', 'On');
-            session_set_cookie_params(0, '/');
-            session_start();
+            require_once(DIR_SYSTEM . 'library/session.php');
+            $session = new Session();
         }
         $this->cachefolder=DIR_CACHE. 'v2pagecache/';
         $svar=$this->GetSessionVar();

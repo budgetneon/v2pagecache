@@ -5,7 +5,7 @@ v2pagecache - Fast, free, open source page cache for opencart v2.X
 
 ## VERSION
 
-Version 1.2
+Version 1.3
 
 ##IMPORTANT NOTE
 
