@@ -45,7 +45,8 @@ class V2PageCache {
         '#/wishlist/#',
         '#/compare/#',
         '#/captcha#',
-        '#/admin#'
+        '#/admin#',
+        '#feed/yandex_yml#'
     );
 
     private $cachefile=null;   // null specifically meaning "not known yet"
