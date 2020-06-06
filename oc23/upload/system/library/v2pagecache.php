@@ -245,6 +245,16 @@ class V2PageCache {
         } 
         $svar=$this->GetSessionVar();
         // don't cache for logged in customers or affiliates
+		/**
+         * if data in _SESSION has a nested array
+         * that requires a another one check
+         */
+        $logged = false;
+        foreach ($svar as $sval) {
+            if (!empty($sval['customer_id']) || !empty($sval['affiliate_id'])) {
+                $logged = true;
+            }
+        }
         if( !empty($svar['customer_id']) || !empty($svar['affiliate_id'])) {
             $this->cacheable=false;
             return $this->cacheable;
